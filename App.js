@@ -1,38 +1,29 @@
-import React, { useRef, useEffect } from 'react';
-import { Animated, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import Screen1 from './Screen/Screen1';
+import Screen2 from './Screen/Screen2';
+import Screen3 from './Screen/Screen3';
 
-const FadeInView = (props) => {
-  const fadeAnim = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
-
-  useEffect(() => {
-    Animated.timing(
-      fadeAnim,
-      {
-        toValue: 1,
-        duration: 2000,
-      }
-    ).start();
-  }, [fadeAnim])
-
+const Stack = createNativeStackNavigator();
+export default function App() {
   return (
-    <Animated.View                 // Special animatable View
-      style={{
-        ...props.style,
-        opacity: fadeAnim,         // Bind opacity to animated value
-      }}
-    >
-      {props.children}
-    </Animated.View>
+    <NavigationContainer>
+          <Stack.Navigator initialRouteName={'Screen1'} screenOptions={{headerShown:false}}>
+              <Stack.Screen name='Screen1' component={Screen1}/>
+              <Stack.Screen name='Screen2' component={Screen2}/>
+              <Stack.Screen name='Screen3' component={Screen2}/>
+          </Stack.Navigator>
+      </NavigationContainer>
   );
 }
 
-// You can then use your `FadeInView` in place of a `View` in your components:
-export default () => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <FadeInView style={{width: 400, height: 100, backgroundColor: 'powderblue'}}>
-        <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Welcome to Animation React Native</Text>
-      </FadeInView>
-    </View>
-  )
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
